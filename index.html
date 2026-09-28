@@ -65,6 +65,8 @@
       background: linear-gradient(180deg, rgba(37,99,235,0.15), rgba(20,20,30,0.9));
     }
     .update-card h3 { margin-top:0; }
+    .update-card ul { margin: 12px 0 16px; padding-left: 18px; }
+    .update-card li { margin: 6px 0; }
     .howto { display:flex; gap:24px; align-items:center; flex-wrap:wrap; }
     .howto img { flex:1; max-width:480px; border-radius:12px; box-shadow:var(--shadow); }
     .howto-content { flex:1; min-width:280px; }
@@ -137,33 +139,38 @@
 
   <main class="container">
     <section id="updateCard" class="card update-card" style="display:none;">
-      <h3>Faça o update manualmente</h3>
+      <h3 id="updateTitle">Atualização 2.1.6 confirmada</h3>
       <p id="updateMessage"></p>
-      <a id="updateLink" class="btn btn-primary" href="#" target="_blank">📥 Baixar atualização manual</a>
+      <ul id="updateNotes">
+        <li>Autoplay: o próximo episódio começa sozinho no player do Kodi.</li>
+        <li>A lista marca com ✓ ASSISTIDO o episódio que você já viu.</li>
+        <li>Instale o zip abaixo no Kodi para concluir.</li>
+      </ul>
+      <a id="updateLink" class="btn btn-primary" href="#" download>📥 Baixar atualização 2.1.6</a>
     </section>
 
     <section class="card">
       <h2>Central de atualizações</h2>
-      <p>Fique por dentro das novidades, correções e lançamentos. Receba avisos rápidos pelo Telegram.</p>
+      <p>Versão em vigor do Brazuca Play: <strong>2.1.6</strong>, publicada em 28/09/2026. Esta página confirma o pacote que o Kodi baixa.</p>
     </section>
 
     <section class="card">
       <h3>Novidades recentes</h3>
       <div class="news-grid">
         <div class="news-card">
-          <h4>Repositório v1.5</h4>
-          <small>25/11/2025</small>
-          <p>Nosso repositório foi atualizado.</p>
+          <h4>Addon v2.1.6</h4>
+          <small>28/09/2026</small>
+          <p>Autoplay do próximo episódio. A série segue sozinha no player do Kodi.</p>
         </div>
         <div class="news-card">
-          <h4>Suporte estendido</h4>
-          <small>Compatível com várias versões</small>
-          <p>16.1, 17, 18, 19, 20 e 21+</p>
+          <h4>Episódios assistidos</h4>
+          <small>28/09/2026</small>
+          <p>A lista da temporada mostra ✓ ASSISTIDO no que você já reproduziu.</p>
         </div>
         <div class="news-card">
-          <h4>Atualização frequente</h4>
-          <small>Semanalmente</small>
-          <p>Não se preocupe, nós mantemos tudo atualizado.</p>
+          <h4>Repositório neste GitHub</h4>
+          <small>luiis716.github.io/brazucaplay</small>
+          <p>Instalação e atualização saem deste site. Compatível com Kodi 16, 17, 18, 19, 20 e 21+.</p>
         </div>
       </div>
     </section>
@@ -235,10 +242,11 @@
         const card = document.getElementById("updateCard");
         const msg = document.getElementById("updateMessage");
         const link = document.getElementById("updateLink");
+        const safeFile = updateFile.replace(/[^a-zA-Z0-9._-]/g, "");
         card.style.display = "block";
-        msg.textContent = `Clique abaixo para baixar o "${updateFile}" e instale via zip.`;
-        link.href = "addons/" + updateFile;
-        link.setAttribute("download", updateFile);
+        msg.textContent = "Pacote confirmado: " + safeFile + ". Baixe e instale via zip no Kodi.";
+        link.href = "addons/" + safeFile;
+        link.setAttribute("download", safeFile);
     }
 
     if (secretKey) {
