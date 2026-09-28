@@ -7,10 +7,7 @@
   <title>Brazuca Community Repo</title>
   <link rel="icon" type="image/png" href="https://i.imgur.com/BfFiAAy.png" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/jquery.mb.ytplayer@3.4.6/dist/css/jquery.mb.YTPlayer.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/jquery.mb.ytplayer@3.4.6/dist/jquery.mb.YTPlayer.min.js"></script>
   <style>
     :root {
       --bg: #0b0f14;
@@ -19,7 +16,7 @@
       --muted: #9aa7b2;
       --primary: #2563eb;
       --accent: #7c3aed;
-      --border: #1f2937;
+      --border: #243041;
       --shadow: 0 8px 24px rgba(0,0,0,0.25);
       --radius: 14px;
     }
@@ -27,69 +24,76 @@
     body {
       margin: 0;
       font-family: Inter, system-ui, sans-serif;
-      background: var(--bg);
+      background:
+        radial-gradient(900px 420px at 10% -10%, rgba(37,99,235,0.28), transparent 60%),
+        radial-gradient(700px 380px at 100% 0%, rgba(124,58,237,0.22), transparent 55%),
+        var(--bg);
       color: var(--text);
     }
     header {
       position: sticky; top: 0; z-index: 100;
       backdrop-filter: blur(12px) saturate(180%);
       -webkit-backdrop-filter: blur(12px) saturate(180%);
-      background-color: rgba(20,24,30,0.85);
+      background-color: rgba(11,15,20,0.86);
       border-bottom: 1px solid rgba(255,255,255,0.08);
-      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
     }
-    .nav { display:flex; justify-content:space-between; align-items:center; padding:10px 20px; flex-wrap:wrap; }
+    .nav { display:flex; justify-content:space-between; align-items:center; padding:10px 20px; gap:12px; flex-wrap:wrap; }
     .brand { display:flex; align-items:center; gap:12px; }
     .brand img { height:36px; border-radius:8px; }
-    .brand h1 { margin:0; font-size:18px; font-weight:600; line-height:1; }
-    .nav-actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:8px; }
+    .brand h1 { margin:0; font-size:18px; font-weight:600; }
+    .nav-actions { display:flex; gap:12px; flex-wrap:wrap; }
     .btn {
-      padding:8px 12px; border-radius:10px; border:1px solid var(--border);
+      padding:10px 14px; border-radius:10px; border:1px solid var(--border);
       background: var(--card); color: var(--text); cursor:pointer;
-      transition:all .2s ease; text-decoration:none; display:inline-flex; align-items:center; gap:6px;
-      font-size:14px;
+      transition: transform .2s ease, box-shadow .2s ease;
+      text-decoration:none; display:inline-flex; align-items:center; gap:6px;
+      font-size:14px; font-family: inherit;
     }
     .btn:hover { transform:translateY(-1px); box-shadow:var(--shadow); }
     .btn-primary {
       background: linear-gradient(135deg, var(--primary), var(--accent));
-      color:white; border:none; text-decoration:none;
+      color:white; border:none;
     }
     .container { max-width:1100px; margin:0 auto; padding:24px; }
+    .hero { padding: 12px 0 4px; }
+    .badge {
+      display:inline-block; margin:0 0 12px; padding:4px 10px;
+      border-radius:999px; border:1px solid var(--border);
+      color: var(--muted); font-size:13px;
+    }
+    h2 { margin: 0 0 8px; font-size: 32px; line-height: 1.2; }
+    .lead { margin: 0; max-width: 640px; color: var(--muted); font-size: 17px; }
+    .downloads { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; margin-top:22px; }
     .card {
-      background: var(--card); border:1px solid var(--border);
-      border-radius:var(--radius); padding:20px; margin-top:20px;
+      background: rgba(20,26,34,0.92); border:1px solid var(--border);
+      border-radius:var(--radius); padding:20px;
       box-shadow:var(--shadow);
     }
-    .update-card {
-      border-left: 6px solid var(--primary);
-      background: linear-gradient(180deg, rgba(37,99,235,0.15), rgba(20,20,30,0.9));
-    }
+    .download-card h3 { margin: 0 0 8px; font-size: 18px; }
+    .download-card p { margin: 0 0 16px; color: var(--muted); font-size: 14px; min-height: 40px; }
+    .download-card.is-target { outline: 2px solid #60a5fa; }
+    .update-card { border-left: 6px solid var(--primary); }
     .update-card h3 { margin-top:0; }
     .update-card ul { margin: 12px 0 16px; padding-left: 18px; }
     .update-card li { margin: 6px 0; }
+    .steps { margin: 8px 0 0; padding-left: 18px; }
+    .steps li { margin: 8px 0; }
     .howto { display:flex; gap:24px; align-items:center; flex-wrap:wrap; }
     .howto img { flex:1; max-width:480px; border-radius:12px; box-shadow:var(--shadow); }
     .howto-content { flex:1; min-width:280px; }
     .repo-box { display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
     .repo-box input {
-      flex:1; padding:10px; border-radius:8px; border:1px solid var(--border);
-      background:var(--bg); color:var(--text);
+      flex:1; min-width: 220px; padding:10px; border-radius:8px; border:1px solid var(--border);
+      background:var(--bg); color:var(--text); font-family: inherit;
     }
-    .copy-status { margin-top:8px; font-size:14px; color:var(--primary); opacity:0; transition:opacity .3s ease; }
+    .copy-status { margin-top:8px; font-size:14px; color:#93c5fd; opacity:0; transition:opacity .3s ease; }
     .copy-status.show { opacity:1; }
     .info-messages { margin-top:12px; font-size:14px; color:var(--muted); }
-    .footer { margin-top:28px; padding:24px; border-top:1px solid var(--border); text-align:center; color:var(--muted); }
-    /* Cards de novidades */
-    .news-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
-    .news-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow); }
-    .news-card h4 { margin:0 0 8px; font-size:16px; }
+    .news-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; }
+    .news-card h3 { margin:0 0 8px; font-size:16px; }
     .news-card small { color:var(--muted); }
-    @media (max-width:768px) {
-      .nav { flex-direction:column; align-items:flex-start; }
-      .nav-actions { margin-top:12px; }
-      .howto { flex-direction:column; }
-      .howto img { max-width:100%; }
-    }
+    .news-card p { margin: 8px 0 0; color: var(--muted); }
+    .footer { margin-top:28px; padding:8px 0 12px; text-align:center; color:var(--muted); }
     .footer q {
       display: block;
       margin-top: 12px;
@@ -98,32 +102,16 @@
       border-left: 4px solid #fa8e8e;
       border-radius: 8px;
     }
-    #bgndVideo {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: -2;
-    }
-    .overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.95);
-      z-index: 0;
-    }
-    /* Esconde a barra de controle do YTPlayer */
-    .mb_YTPBar {
-        display: none !important;
-    }
-    #controlBar_bgndVideo {
-        display: none !important;
+    .file-links { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+    @media (max-width:768px) {
+      h2 { font-size: 26px; }
+      .nav { align-items:flex-start; }
+      .howto { flex-direction:column; }
+      .howto img { max-width:100%; }
     }
   </style>
 </head>
 <body>
-  <div id="bgndVideo"></div>
-  <div class="overlay"></div>
-
   <header>
     <div class="nav container">
       <div class="brand">
@@ -131,158 +119,145 @@
         <h1>Brazuca Community Repo</h1>
       </div>
       <div class="nav-actions">
-        <a class="btn" href="addons/repository.BrazucaPlay.zip" download aria-label="Baixar repositório BrazucaPlay">📥 Baixar Repositório</a>
-        <a id="telegramLink" class="btn btn-primary" href="https://t.me/+6oulWWlEwpo0ZDE5" target="_blank">📢 Participe do Telegram</a>
+        <a class="btn" href="#instalar">Como instalar</a>
+        <a id="telegramLink" class="btn btn-primary" href="https://t.me/+6oulWWlEwpo0ZDE5" target="_blank" rel="noopener">Telegram</a>
       </div>
     </div>
   </header>
 
   <main class="container">
-    <section id="updateCard" class="card update-card" style="display:none;">
-      <h3 id="updateTitle">Atualização 2.1.7 confirmada</h3>
-      <p id="updateMessage"></p>
-      <ul id="updateNotes">
-        <li>Autoplay com contagem: ao terminar o episódio aparece o próximo e ele entra sozinho.</li>
-        <li>Corrigido o fechamento do Kodi no fim do episódio.</li>
-        <li>A lista marca com ✓ ASSISTIDO o episódio que você já viu.</li>
-        <li>Instale o zip abaixo e reinicie o Kodi para concluir.</li>
-      </ul>
-      <a id="updateLink" class="btn btn-primary" href="#" download>📥 Baixar atualização 2.1.7</a>
+    <section class="hero">
+      <p class="badge">Versão em vigor: 2.1.8 · 28/09/2026</p>
+      <h2>Brazuca Play para o Kodi</h2>
+      <p class="lead">O episódio seguinte entra sozinho quando o atual termina, na fila do Kodi, sem janela por cima da tela.</p>
     </section>
 
-    <section class="card">
-      <h2>Central de atualizações</h2>
-      <p>Versão em vigor do Brazuca Play: <strong>2.1.7</strong>, publicada em 28/09/2026. Esta página confirma o pacote que o Kodi baixa.</p>
+    <section id="updateCard" class="card update-card" style="display:none;" aria-live="polite">
+      <h3 id="updateTitle">Atualização 2.1.8 confirmada</h3>
+      <p id="updateMessage"></p>
+      <ul id="updateNotes">
+        <li>O próximo episódio entra sozinho quando o atual termina.</li>
+        <li>Sem janela de contagem por cima do Kodi.</li>
+        <li>A lista marca com ✓ ASSISTIDO o episódio que você já viu.</li>
+      </ul>
+      <a id="updateLink" class="btn btn-primary" href="addons/plugin.video.BrazucaPlay.zip" download>Baixar atualização 2.1.8</a>
+    </section>
+
+    <section class="downloads" aria-label="Downloads">
+      <article class="card download-card" id="pack-leia">
+        <h3>Kodi 18 e anteriores</h3>
+        <p>Pacote Leia. Use este zip se o seu Kodi for 16, 17 ou 18.</p>
+        <a class="btn btn-primary" href="addons/plugin.video.BrazucaPlay.zip" download>Baixar Brazuca Play</a>
+      </article>
+      <article class="card download-card" id="pack-matrix">
+        <h3>Kodi 19 ou mais novo</h3>
+        <p>Pacote Matrix. Use este zip no Kodi 19, 20 e 21.</p>
+        <a class="btn btn-primary" href="addons/plugin.video.BrazucaPlay.Matrix.zip" download>Baixar Brazuca Play</a>
+      </article>
+      <article class="card download-card" id="pack-repo">
+        <h3>Repositório</h3>
+        <p>Instale uma vez para o Kodi buscar as próximas versões neste site.</p>
+        <a class="btn" href="addons/repository.BrazucaPlay.zip" download>Baixar repositório</a>
+      </article>
+    </section>
+
+    <section id="instalar" class="card">
+      <h3>Como adicionar o repositório</h3>
+      <div class="howto">
+        <img src="https://imgur.com/8U1bKJf.png" alt="Tela do Kodi para adicionar o endereço do repositório" />
+        <div class="howto-content">
+          <ol class="steps">
+            <li>No Kodi, abra Complementos e entre em Instalar de um arquivo zip.</li>
+            <li>Selecione o zip do repositório que você baixou acima.</li>
+            <li>Depois instale o Brazuca Play a partir deste repositório, ou o zip da sua versão do Kodi.</li>
+          </ol>
+          <p>O endereço que o Kodi consulta é este:</p>
+          <div class="repo-box">
+            <input id="repoLink" type="text" readonly value="https://luiis716.github.io/brazucaplay" />
+            <button class="btn btn-primary" type="button" onclick="copyRepoLink()">Copiar</button>
+          </div>
+          <div id="copyStatus" class="copy-status">Link copiado.</div>
+        </div>
+      </div>
     </section>
 
     <section class="card">
       <h3>Novidades recentes</h3>
       <div class="news-grid">
-        <div class="news-card">
-          <h4>Addon v2.1.7</h4>
+        <article class="news-card">
+          <h3>Addon v2.1.8</h3>
           <small>28/09/2026</small>
-          <p>Contagem regressiva até o próximo episódio e correção do travamento no fim do vídeo.</p>
-        </div>
-        <div class="news-card">
-          <h4>Episódios assistidos</h4>
+          <p>O episódio seguinte começa sozinho no fim do atual, sem janela por cima do Kodi.</p>
+        </article>
+        <article class="news-card">
+          <h3>Episódios assistidos</h3>
           <small>28/09/2026</small>
           <p>A lista da temporada mostra ✓ ASSISTIDO no que você já reproduziu.</p>
-        </div>
-        <div class="news-card">
-          <h4>Repositório neste GitHub</h4>
+        </article>
+        <article class="news-card">
+          <h3>Este repositório</h3>
           <small>luiis716.github.io/brazucaplay</small>
-          <p>Instalação e atualização saem deste site. Compatível com Kodi 16, 17, 18, 19, 20 e 21+.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Seção Como adicionar -->
-    <section id="howto" class="card">
-      <h3>Como adicionar o repositório</h3>
-      <div class="howto">
-        <img src="https://imgur.com/8U1bKJf.png" alt="Exemplo de como adicionar o repositório" />
-        <div class="howto-content">
-          <p>Copie e cole este link no seu gerenciador de repositórios:</p>
-          <div class="repo-box">
-            <input id="repoLink" type="text" readonly value="https://luiis716.github.io/brazucaplay" />
-            <button class="btn btn-primary" onclick="copyRepoLink()">📋 Copiar</button>
-          </div>
-          <div id="copyStatus" class="copy-status">Link copiado!</div>
-          <div class="info-messages">
-            <p>ℹ️ Instale o repositório para ficar atualizado e evitar falhas nos addons.</p>
-            <p>📲 Ative as notificações no canal do Telegram para receber avisos importantes.</p>
-          </div>
-        </div>
+          <p>Instalação e atualização saem deste site. Compatível com Kodi 16 até 21.</p>
+        </article>
       </div>
     </section>
 
     <footer class="footer">
-      <p><strong>Brazuca Community</strong> — Projeto comunitário, sem anúncios e com comunicação transparente.</p>
-      <q>O autor não se responsabiliza pelo conteúdo encontrado aqui nem pelo mau uso do mesmo. 
-      Nosso add-on funciona apenas como um agregador de links e organiza os mesmos, bem como sinopses, títulos e outros!</q>
+      <p><strong>Brazuca Community</strong> — Projeto comunitário, sem anúncios.</p>
+      <q>O autor não se responsabiliza pelo conteúdo encontrado aqui nem pelo mau uso do mesmo. Nosso add-on funciona apenas como um agregador de links e organiza os mesmos, bem como sinopses, títulos e outros.</q>
     </footer>
+
+    <nav class="file-links" aria-hidden="true">
+      <a href="addons/repository.BrazucaPlay.zip">addons/repository.BrazucaPlay.zip</a>
+      <a href="addons/plugin.video.BrazucaPlay.zip">addons/plugin.video.BrazucaPlay.zip</a>
+      <a href="addons/plugin.video.BrazucaPlay.Matrix.zip">addons/plugin.video.BrazucaPlay.Matrix.zip</a>
+    </nav>
   </main>
   <script>
-    $(function() {
-        $("#bgndVideo").YTPlayer({
-            videoURL: "C1xUergJyvA", // ID do vídeo
-            containment: "body",
-            vol: 20,
-            startAt: 0,
-            stopAt: 59,
-            opacity: 1,
-            addRaster: true,
-            quality: 'hd720',
-            stopMovieOnBlur: false,
-            optimizeDisplay: true,
-            showControls: true,
-            autoPlay: true,
-            mute: false,
-            loop: true
-        });
-    });
-  </script>
-  <script>
     function copyRepoLink() {
-        const input = document.getElementById('repoLink');
-        navigator.clipboard.writeText(input.value).then(() => {
-            const status = document.getElementById('copyStatus');
-            status.classList.add('show');
-            setTimeout(() => status.classList.remove('show'), 2000);
-        });
+      var input = document.getElementById("repoLink");
+      var status = document.getElementById("copyStatus");
+      var done = function () {
+        status.classList.add("show");
+        setTimeout(function () { status.classList.remove("show"); }, 2000);
+      };
+      input.focus();
+      input.select();
+      try { document.execCommand("copy"); } catch (e) {}
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(input.value).catch(function () {});
+      }
+      done();
     }
 
-    // Convite encriptado com AES (gerado previamente)
-    const conviteCriptografado = "U2FsdGVkX19/3Pp3rm+mxcSPYxyhHk9XBNus01JctA2Gaqdrav+EZQATM1OPNSOq"; // substitua pelo texto gerado
+    var conviteCriptografado = "U2FsdGVkX19/3Pp3rm+mxcSPYxyhHk9XBNus01JctA2Gaqdrav+EZQATM1OPNSOq";
+    var params = new URLSearchParams(window.location.search);
+    var secretKey = params.get("addon");
+    var updateFile = params.get("update");
 
-    // Mostrar card de atualização apenas se ?update= contiver plugin.video.BrazucaPlay
-    const params = new URLSearchParams(window.location.search);
-    const secretKey = params.get("addon");
-    const updateFile = params.get("update");
-    if (updateFile && updateFile.toLowerCase().startsWith("plugin.video.brazucaplay")) {
-        const card = document.getElementById("updateCard");
-        const msg = document.getElementById("updateMessage");
-        const link = document.getElementById("updateLink");
-        const safeFile = updateFile.replace(/[^a-zA-Z0-9._-]/g, "");
-        card.style.display = "block";
-        msg.textContent = "Pacote confirmado: " + safeFile + ". Baixe e instale via zip no Kodi.";
-        link.href = "addons/" + safeFile;
-        link.setAttribute("download", safeFile);
+    if (updateFile && updateFile.toLowerCase().indexOf("plugin.video.brazucaplay") === 0) {
+      var card = document.getElementById("updateCard");
+      var msg = document.getElementById("updateMessage");
+      var link = document.getElementById("updateLink");
+      var safeFile = updateFile.replace(/[^a-zA-Z0-9._-]/g, "");
+      var alvo = safeFile.toLowerCase().indexOf("matrix") !== -1 ? "pack-matrix" : "pack-leia";
+      card.style.display = "block";
+      msg.textContent = "Pacote confirmado: " + safeFile + ". Baixe e instale o zip no Kodi.";
+      link.href = "addons/" + safeFile;
+      link.setAttribute("download", safeFile);
+      var pack = document.getElementById(alvo);
+      if (pack) pack.classList.add("is-target");
     }
 
-    if (secretKey) {
-        try {
-            // Descriptografa usando a chave passada
-            const bytes = CryptoJS.AES.decrypt(conviteCriptografado, secretKey);
-            const link = bytes.toString(CryptoJS.enc.Utf8);
-
-            // Se for um link válido do Telegram, altera o botão
-            if (link.startsWith("https://t.me/")) {
-                document.getElementById("telegramLink").href = link;
-            }
-        } catch (e) {
-            console.error("Erro ao descriptografar convite:", e);
+    if (secretKey && window.CryptoJS) {
+      try {
+        var bytes = CryptoJS.AES.decrypt(conviteCriptografado, secretKey);
+        var linkTelegram = bytes.toString(CryptoJS.enc.Utf8);
+        if (linkTelegram.indexOf("https://t.me/") === 0) {
+          document.getElementById("telegramLink").href = linkTelegram;
         }
+      } catch (e) {}
     }
   </script>
 </body>
 </html>
-<div id="div" style="display:none">
-  <table>
-    <tr>
-      <td>
-        <a href="addons/repository.BrazucaPlay.zip">addons/repository.BrazucaPlay.zip</a>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <a href="addons/plugin.video.BrazucaPlay.zip">addons/plugin.video.BrazucaPlay.zip</a>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <a href="addons/plugin.video.BrazucaPlay.Matrix.zip">addons/plugin.video.BrazucaPlay.Matrix.zip</a>
-      </td>
-    </tr>
-  </table>
-</div>
